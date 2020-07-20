@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/task",
+            "outputPath": "src/main/resources/static",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "task"
+    }
+  },
+  "defaultProject": "task",
+  "cli": {
+    "analytics": "f60a516a-f133-42f0-9647-bc752b609a56"
+  }
 }

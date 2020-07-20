@@ -8,6 +8,16 @@ group = 'ru.manager'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+jar {
+  manifest {
+    attributes "Main-Class": "ru.manager.task.TaskApplication"
+  }
+
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
 repositories {
 	mavenCentral()
 }
@@ -23,4 +33,33 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+////////////////////
+//build angular build
+///////////////////
+
+processResources {
+  dependsOn "buildAngular"
+}
+
+task buildAngular(type:Exec) {
+  // installAngular should be run prior to this task
+  dependsOn "installAngular"
+  // Add task to the standard build group
+  group = BasePlugin.BUILD_GROUP
+  // ng doesn't exist as a file in windows -> ng.cmd
+  if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+    commandLine "ng.cmd", "build"
+  } else {
+    commandLine "ng", "build"
+  }
+}
+
+task installAngular(type:Exec) {
+  group = BasePlugin.BUILD_GROUP
+  if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+    commandLine "npm.cmd", "install"
+  } else {
+    commandLine "npm", "install"
+  }
 }
